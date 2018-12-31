@@ -16,20 +16,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyListScreen(),
+      home: AnimalListScreen(),
     );
   }
 }
 
-class MyListScreen extends StatefulWidget {
+class AnimalListScreen extends StatefulWidget {
   @override
-  createState() => _MyListScreenState();
+  createState() => _AnimalListScreenState();
 }
 
-class _MyListScreenState extends State {
+class _AnimalListScreenState extends State {
   var animals = new List<Animal>();
 
-  _getUsers() {
+  _getAnimals() {
     API.getAnimals().then((response) {
       setState(() {
         if (response.statusCode == 200) {
@@ -37,6 +37,7 @@ class _MyListScreenState extends State {
           animals = (json.decode(response.body) as List)
               .map((data) => new Animal.fromJson(data))
               .toList();
+          animals.sort((Animal a, Animal b) => a.name.compareTo(b.name));
         } else {
           // If that call was not successful, throw an error.
           throw Exception('Failed to load animals');
@@ -47,7 +48,7 @@ class _MyListScreenState extends State {
 
   initState() {
     super.initState();
-    _getUsers();
+    _getAnimals();
   }
 
   dispose() {

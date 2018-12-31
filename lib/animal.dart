@@ -15,6 +15,7 @@ class Animal {
           .map<Zoo>((data) => new Zoo.fromJson(data))
           .toList();
     }
+
     return Animal(
       id: results['id'],
       zooIds: results['zoos'],
