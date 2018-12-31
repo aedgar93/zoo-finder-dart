@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
-import 'API.dart';
 import 'animal.dart';
+import 'repo.dart';
 
 void main() => runApp(new MyApp());
+
+final animalRepo = AnimalRepository();
 
 class MyApp extends StatelessWidget {
   @override
@@ -30,19 +30,8 @@ class _AnimalListScreenState extends State {
   var animals = new List<Animal>();
 
   _getAnimals() {
-    API.getAnimals().then((response) {
-      setState(() {
-        if (response.statusCode == 200) {
-          // If the call to the server was successful, parse the JSON
-          animals = (json.decode(response.body) as List)
-              .map((data) => new Animal.fromJson(data))
-              .toList();
-          animals.sort((Animal a, Animal b) => a.name.compareTo(b.name));
-        } else {
-          // If that call was not successful, throw an error.
-          throw Exception('Failed to load animals');
-        }
-      });
+    animalRepo.getAnimals().then((fetchAnimals) {
+      animals = fetchAnimals;
     });
   }
 
