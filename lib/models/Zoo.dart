@@ -1,4 +1,4 @@
-import 'animal.dart';
+import 'package:zoo_finder/models/Animal.dart';
 
 class Zoo {
   final String id;

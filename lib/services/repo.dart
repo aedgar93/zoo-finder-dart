@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:zoo_finder/API.dart';
-import 'package:zoo_finder/animal.dart';
+import 'package:zoo_finder/models/Animal.dart';
+import 'package:zoo_finder/services/API.dart';
 
 class AnimalRepository {
   List<Animal> allAnimals;
