@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:map_view/map_view.dart';
 import 'package:zoo_finder/services/repo.dart';
+
 import 'screens/AnimalListScreen.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  MapView.setApiKey("AIzaSyBjByGoFxzMxHJMGJhR30L6NFSXkg99odo");
+  runApp(new MyApp());
+}
 
 final animalRepository = AnimalRepository();
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zoo_finder/models/Animal.dart';
+import 'package:zoo_finder/services/API.dart';
 import 'package:zoo_finder/services/repo.dart';
 
 import 'AnimalScreen.dart';
@@ -21,8 +22,12 @@ class _AnimalListScreenState extends State {
   _AnimalListScreenState({@required this.animalRepository});
 
   _getAnimals() {
-    animalRepository.getAnimals().then((fetchAnimals) {
-      this.animals = fetchAnimals;
+    //TODO: fix repo
+//    animalRepository.getAnimals().then((fetchAnimals) {
+//      animals = fetchAnimals;
+//    });
+    API.getAnimals().then((fetchAnimals) {
+      animals = fetchAnimals;
     });
   }
 
@@ -42,16 +47,15 @@ class _AnimalListScreenState extends State {
           title: Text("Animal List"),
         ),
         body: ListView.builder(
-          itemCount: this.animals.length,
+          itemCount: animals.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(this.animals[index].name),
+              title: Text(animals[index].name),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        AnimalScreen(animal: this.animals[index]),
+                    builder: (context) => AnimalScreen(animal: animals[index]),
                   ),
                 );
               },

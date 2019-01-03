@@ -10,7 +10,7 @@ class Animal {
 
   factory Animal.fromJson(Map<String, dynamic> results) {
     List<Zoo> zooList = List();
-    if (results['zoo_objects'].isEmpty) {
+    if (results['zoo_objects'] != null) {
       zooList = results['zoo_objects']
           .map<Zoo>((data) => new Zoo.fromJson(data))
           .toList();
