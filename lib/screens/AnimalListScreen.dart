@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zoo_finder/models/Animal.dart';
-import 'package:zoo_finder/services/API.dart';
 import 'package:zoo_finder/services/repo.dart';
 
 import 'AnimalScreen.dart';
@@ -16,19 +15,28 @@ class AnimalListScreen extends StatefulWidget {
 }
 
 class _AnimalListScreenState extends State {
-  var animals = new List<Animal>();
+  final animals = new List<Animal>();
   final AnimalRepository animalRepository;
 
   _AnimalListScreenState({@required this.animalRepository});
 
   _getAnimals() {
     //TODO: fix repo
-//    animalRepository.getAnimals().then((fetchAnimals) {
-//      animals = fetchAnimals;
-//    });
-    API.getAnimals().then((fetchAnimals) {
-      animals = fetchAnimals;
+    animalRepository.getAnimals().then((responseList) {
+      setState(() {
+        animals.addAll(responseList);
+        animals.sort((Animal a, Animal b) => a.name.compareTo(b.name));
+      });
     });
+//    API.getAnimals().then((response) {
+//      var responseList = (json.decode(response.body) as List)
+//          .map((data) => new Animal.fromJson(data))
+//          .toList();
+//      setState(() {
+//        animals.addAll(responseList);
+//        animals.sort((Animal a, Animal b) => a.name.compareTo(b.name));
+//      });
+//    });
   }
 
   initState() {

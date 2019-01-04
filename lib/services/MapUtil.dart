@@ -1,76 +1,55 @@
-import 'package:flutter/material.dart';
 import 'package:map_view/map_view.dart';
 import 'package:zoo_finder/models/Animal.dart';
+import 'package:zoo_finder/models/Zoo.dart';
 
 class MapUtil {
-  static var api_key = "AIzaSyBjByGoFxzMxHJMGJhR30L6NFSXkg99odo";
+  static var apiKey = "AIzaSyBjByGoFxzMxHJMGJhR30L6NFSXkg99odo";
   var staticMapProvider;
-  CameraPosition cameraPosition;
-  var location = new Location(30.7269882, 76.8354053);
-  var zoomLevel = 12.0;
 
   init() {
-    staticMapProvider = new StaticMapProvider(MapUtil.api_key);
-    cameraPosition = new CameraPosition(getMyLocation(), zoomLevel);
+    staticMapProvider = new StaticMapProvider(MapUtil.apiKey);
   }
 
-  List<Marker> getMarker() {
-    List<Marker> markers = <Marker>[
-      new Marker("1", "The Lalit", 30.7265995, 76.8361955, color: Colors.amber),
-      new Marker("2", "Tech mahindra", 30.7290226, 76.8339204,
-          color: Colors.red),
-      new Marker("3", "Infosys", 30.7285108, 76.8388771, color: Colors.green),
-    ];
-
+  List<Marker> getMarkers(List<Zoo> zoos) {
+    List<Marker> markers = new List<Marker>();
+    zoos.forEach((zoo) {
+      Marker marker = new Marker(zoo.id, zoo.name, zoo.lat, zoo.long);
+      markers.add(marker);
+    });
     return markers;
   }
 
-  Uri getStaticMap() {
-    return staticMapProvider.getStaticUri(getMyLocation(), zoomLevel.toInt(),
-        height: 400, width: 900);
-  }
-
-  Location getMyLocation() {
-    return location;
-  }
-
-  CameraPosition getCamera() {
-    return cameraPosition;
+  String getStaticMap(Animal animal) {
+    Uri staticMapUri = staticMapProvider.getStaticUriWithMarkersAndZoom(
+        getMarkers(animal.fullZoos),
+        height: 400,
+        width: 900);
+    String uriString = staticMapUri.toString();
+    if (animal.fullZoos.length == 1) {
+      //zoom is broken. add it manually
+      uriString += "&zoom=5";
+    }
+    return uriString;
   }
 
   showMap(MapView mapView, Animal animal) {
-    MapView.setApiKey(api_key);
+    MapView.setApiKey(apiKey);
     mapView.show(
         new MapOptions(
             mapViewType: MapViewType.normal,
-            initialCameraPosition: getCamera(),
             showUserLocation: true,
             title: "Show me the ${animal.name}s!"),
         toolbarActions: [new ToolbarAction("Close", 1)]);
 
-    mapView.zoomToFit(padding: 100);
     mapView.onMapReady.listen((_) {
-      mapView.setMarkers(getMarker());
-      print("Map ready");
+      mapView.setMarkers(getMarkers(animal.fullZoos));
+      mapView.zoomToFit(padding: 100);
     });
-
-    mapView.onLocationUpdated.listen((location) => updateLocation(location));
-    mapView.onTouchAnnotation.listen((marker) => print("marker tapped"));
-    mapView.onMapTapped.listen((location) => updateLocation(location));
 
     mapView.onToolbarAction.listen((id) {
       if (id == 1) {
         mapView.dismiss();
       }
     });
-  }
-
-  updateLocation(Location location) {
-    this.location = location;
-    print("location changed $location");
-  }
-
-  updateZoomLevel(double zoomLevel) {
-    this.zoomLevel = zoomLevel;
   }
 }

@@ -13,11 +13,9 @@ class AnimalScreen extends StatefulWidget {
 }
 
 class _AnimalScreenState extends State<AnimalScreen> {
-  final teLatitude = TextEditingController();
-  final teLongitude = TextEditingController();
-  final teZoomLevel = TextEditingController();
   MapView mapView;
   MapUtil mapUtil;
+  String staticMap;
   final Animal animal;
 
   _AnimalScreenState({@required this.animal});
@@ -29,9 +27,7 @@ class _AnimalScreenState extends State<AnimalScreen> {
     mapUtil = new MapUtil();
     mapUtil.init();
     mapView = new MapView();
-    teLatitude.text = mapUtil.getCamera().center.latitude.toString();
-    teLongitude.text = mapUtil.getCamera().center.longitude.toString();
-    teZoomLevel.text = mapUtil.getCamera().zoom.toString();
+    staticMap = mapUtil.getStaticMap(animal);
   }
 
   @override
@@ -45,14 +41,14 @@ class _AnimalScreenState extends State<AnimalScreen> {
               new GestureDetector(
                 onTap: () => mapUtil.showMap(mapView, animal),
                 child: new Center(
-                  child: new Image.network(mapUtil.getStaticMap().toString()),
+                  child: new Image.network(staticMap),
                 ),
               ),
             ],
           ),
         ),
         new Container(
-          height: 150,
+          height: 50,
           child: new Text(
             "You can find ${animal.name}s at these zoos:",
             style: new TextStyle(fontWeight: FontWeight.bold),
