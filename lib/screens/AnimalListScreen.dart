@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:zoo_finder/models/Animal.dart';
 import 'package:zoo_finder/services/repo.dart';
+import 'package:zoo_finder/screens/ZooListScreen.dart';
 
 import 'AnimalScreen.dart';
 
 class AnimalListScreen extends StatefulWidget {
-  final AnimalRepository animalRepository;
-
-  AnimalListScreen({@required this.animalRepository});
+  AnimalListScreen();
 
   @override
-  createState() =>
-      _AnimalListScreenState(animalRepository: this.animalRepository);
+  createState() => _AnimalListScreenState();
 }
 
 class _AnimalListScreenState extends State {
+  final animalRepository = AnimalRepository();
   final animals = new List<Animal>();
   final animalsToDisplay = new List<Animal>();
-  final AnimalRepository animalRepository;
 
-  _AnimalListScreenState({@required this.animalRepository});
+  _AnimalListScreenState();
   TextEditingController editingController = TextEditingController();
 
   _getAnimals() {
@@ -69,6 +67,21 @@ class _AnimalListScreenState extends State {
       appBar: AppBar(
         title: Text("Animal List"),
       ),
+      drawer: new Drawer(
+          child: new ListView(
+        children: <Widget>[
+          new ListTile(title: new Text('Animals')),
+          new ListTile(
+            title: new Text('Zoos'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => ZooListScreen()));
+            },
+            trailing: Icon(Icons.arrow_forward),
+          ),
+        ],
+      )),
       body: Container(
         child: Column(
           children: <Widget>[
