@@ -13,7 +13,6 @@ class AnimalListScreen extends StatefulWidget {
 }
 
 class _AnimalListScreenState extends State {
-  final animalRepository = animalRepo;
   final animals = new List<Animal>();
   final animalsToDisplay = new List<Animal>();
 
@@ -21,7 +20,7 @@ class _AnimalListScreenState extends State {
   TextEditingController editingController = TextEditingController();
 
   _getAnimals() {
-    animalRepository.getAnimals().then((responseList) {
+    animalRepo.getAnimals().then((responseList) {
       setState(() {
         animals.addAll(responseList);
         animals.sort((Animal a, Animal b) => a.name.compareTo(b.name));
@@ -97,7 +96,7 @@ class _AnimalListScreenState extends State {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => ZooListScreen()));
             },
-            trailing: Icon(Icons.arrow_forward),
+            trailing: Icon(Icons.navigate_next),
           ),
         ],
       )),

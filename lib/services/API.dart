@@ -9,4 +9,9 @@ class API {
     var url = baseUrl + "/animals";
     return http.get(url);
   }
+
+  static Future getZoos() {
+    var url = baseUrl + "/zoos";
+    return http.get(url);
+  }
 }

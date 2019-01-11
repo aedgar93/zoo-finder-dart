@@ -20,7 +20,7 @@ class Zoo {
     List<Animal> animalList = List();
     if (results['animal_objects'] != null) {
       animalList = results['animal_objects']
-          .map<Animal>((data) => new Zoo.fromJson(data))
+          .map<Animal>((data) => new Animal.fromJson(data))
           .toList();
     }
     return Zoo(
@@ -28,8 +28,8 @@ class Zoo {
       fullAnimals: animalList,
       animalIds: results['animals'],
       name: results['name'],
-      lat: results['location'][0],
-      long: results['location'][1],
+      lat: results['location'] != null ? results['location'][0] : null,
+      long: results['location'] != null ? results['location'][1] : null,
     );
   }
 }

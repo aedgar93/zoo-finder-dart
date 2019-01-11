@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zoo_finder/models/Zoo.dart';
+import 'package:zoo_finder/screens/ZooScreen.dart';
 import 'package:zoo_finder/screens/AnimalListScreen.dart';
+import 'package:zoo_finder/services/repo.dart';
 
 class ZooListScreen extends StatefulWidget {
   ZooListScreen();
@@ -16,7 +18,15 @@ class _ZooListScreenState extends State {
   _ZooListScreenState();
   TextEditingController editingController = TextEditingController();
 
-  _getZoos() {}
+  _getZoos() {
+    zooRepo.getZoos().then((responseList) {
+      setState(() {
+        zoos.addAll(responseList);
+        zoos.sort((Zoo a, Zoo b) => a.name.compareTo(b.name));
+        zoosToDisplay.addAll(zoos);
+      });
+    });
+  }
 
   void filterSearchResults(String query) {
     if (query.isNotEmpty) {
@@ -80,7 +90,7 @@ class _ZooListScreenState extends State {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => AnimalListScreen()));
             },
-            trailing: Icon(Icons.arrow_forward),
+            trailing: Icon(Icons.navigate_next),
           ),
           new ListTile(
             title: new Text('Zoos'),
@@ -108,25 +118,25 @@ class _ZooListScreenState extends State {
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
             ),
-//            Expanded(
-//              child: ListView.builder(
-//                itemCount: zoosToDisplay.length,
-//                itemBuilder: (context, index) {
-//                  return ListTile(
-//                    title: Text(zoosToDisplay[index].name),
-//                    onTap: () {
-//                      Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                          builder: (context) =>
-//                              AnimalScreen(zoo: zoosToDisplay[index]),
-//                        ),
-//                      );
-//                    },
-//                  );
-//                },
-//              ),
-//            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: zoosToDisplay.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(zoosToDisplay[index].name),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ZooScreen(zoo: zoosToDisplay[index]),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
