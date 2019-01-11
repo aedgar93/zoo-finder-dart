@@ -1,3 +1,5 @@
+library repos;
+
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
@@ -26,7 +28,10 @@ class AnimalRepository {
 
   Future<List<Animal>> getAnimals() {
     if (this.animalsLoaded) {
-      return buildFutureAll();
+      var completer = Completer<List<Animal>>();
+      completer.complete(this.allAnimals);
+      return completer.future;
+      ;
     } else {
       API.getAnimals().then(onData);
       return buildFutureAll();
@@ -85,3 +90,5 @@ class AnimalRepository {
     }
   }
 }
+
+var animalRepo = new AnimalRepository();

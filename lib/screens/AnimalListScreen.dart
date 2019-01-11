@@ -13,7 +13,7 @@ class AnimalListScreen extends StatefulWidget {
 }
 
 class _AnimalListScreenState extends State {
-  final animalRepository = AnimalRepository();
+  final animalRepository = animalRepo;
   final animals = new List<Animal>();
   final animalsToDisplay = new List<Animal>();
 
