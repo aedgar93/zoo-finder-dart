@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 
-const baseUrl = "http://localhost:5000/api";
+const baseUrl = "https://show-me-the-otters.herokuapp.com/api";
 
 class API {
   static Future getAnimals() {
