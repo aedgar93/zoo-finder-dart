@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zoo_finder/models/Animal.dart';
-import 'package:zoo_finder/services/repo.dart';
 import 'package:zoo_finder/screens/ZooListScreen.dart';
+import 'package:zoo_finder/services/repo.dart';
 
 import 'AnimalScreen.dart';
 
@@ -70,7 +70,12 @@ class _AnimalListScreenState extends State {
       drawer: new Drawer(
           child: new ListView(
         children: <Widget>[
-          new ListTile(title: new Text('Animals')),
+          new ListTile(
+            title: new Text('Animals'),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          ),
           new ListTile(
             title: new Text('Zoos'),
             onTap: () {

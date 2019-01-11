@@ -69,6 +69,9 @@ class _ZooListScreenState extends State {
           ),
           new ListTile(
             title: new Text('Zoos'),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
           ),
         ],
       )),
