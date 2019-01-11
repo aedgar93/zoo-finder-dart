@@ -70,6 +70,20 @@ class _AnimalListScreenState extends State {
       drawer: new Drawer(
           child: new ListView(
         children: <Widget>[
+          Container(
+            height: 70,
+            child: new DrawerHeader(
+                child: new Text(
+                  "Show me the Otters!",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+                decoration: new BoxDecoration(color: Colors.teal),
+                padding: EdgeInsets.all(20.0)),
+          ),
           new ListTile(
             title: new Text('Animals'),
             onTap: () {
