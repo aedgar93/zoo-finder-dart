@@ -1,26 +1,21 @@
-import 'Zoo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Animal {
-  final String id;
-  final List<dynamic> zooIds;
-  final List<Zoo> fullZoos;
+  final List<dynamic> zoos;
   final String name;
+  final DocumentReference reference;
 
-  Animal({this.id, this.zooIds, this.fullZoos, this.name});
+  Animal({this.zoos, this.name, this.reference});
 
-  factory Animal.fromJson(Map<String, dynamic> results) {
-    List<Zoo> zooList = List();
-    if (results['zoo_objects'] != null) {
-      zooList = results['zoo_objects']
-          .map<Zoo>((data) => new Zoo.fromJson(data))
-          .toList();
-    }
+  factory Animal.fromSnapshot(DocumentSnapshot snapshot) {
+    return Animal.fromMap(snapshot.data, snapshot.reference);
+  }
 
+  factory Animal.fromMap(Map<String, dynamic> results, DocumentReference ref) {
     return Animal(
-      id: results['id'],
-      zooIds: results['zoos'],
-      fullZoos: zooList,
+      zoos: results['zoos'],
       name: results['name'],
+      reference: ref,
     );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zoo_finder/models/Zoo.dart';
-import 'package:zoo_finder/screens/ZooScreen.dart';
-import 'package:zoo_finder/screens/AnimalListScreen.dart';
-import 'package:zoo_finder/services/repo.dart';
+
+import '../models/Zoo.dart';
+import 'AnimalListScreen.dart';
+import 'ZooScreen.dart';
 
 class ZooListScreen extends StatefulWidget {
   ZooListScreen();
@@ -19,13 +19,13 @@ class _ZooListScreenState extends State {
   TextEditingController editingController = TextEditingController();
 
   _getZoos() {
-    zooRepo.getZoos().then((responseList) {
-      setState(() {
-        zoos.addAll(responseList);
-        zoos.sort((Zoo a, Zoo b) => a.name.compareTo(b.name));
-        zoosToDisplay.addAll(zoos);
-      });
-    });
+//    zooRepo.getZoos().then((responseList) {
+//      setState(() {
+//        zoos.addAll(responseList);
+//        zoos.sort((Zoo a, Zoo b) => a.name.compareTo(b.name));
+//        zoosToDisplay.addAll(zoos);
+//      });
+//    });
   }
 
   void filterSearchResults(String query) {

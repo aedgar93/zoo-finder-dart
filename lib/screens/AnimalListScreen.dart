@@ -1,9 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:zoo_finder/models/Animal.dart';
-import 'package:zoo_finder/screens/ZooListScreen.dart';
-import 'package:zoo_finder/services/repo.dart';
 
-import 'AnimalScreen.dart';
+import '../models/Animal.dart';
+import 'ZooListScreen.dart';
 
 class AnimalListScreen extends StatefulWidget {
   AnimalListScreen();
@@ -19,14 +18,40 @@ class _AnimalListScreenState extends State {
   _AnimalListScreenState();
   TextEditingController editingController = TextEditingController();
 
-  _getAnimals() {
-    animalRepo.getAnimals().then((responseList) {
-      setState(() {
-        animals.addAll(responseList);
-        animals.sort((Animal a, Animal b) => a.name.compareTo(b.name));
-        animalsToDisplay.addAll(animals);
-      });
-    });
+  Widget _buildBody(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('baby').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+
+        return _buildList(context, snapshot.data.documents);
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 20.0),
+      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+    final animal = Animal.fromSnapshot(data);
+    return Padding(
+      key: ValueKey(animal.name),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: ListTile(
+          title: Text(animal.name),
+          onTap: () => print(animal),
+        ),
+      ),
+    );
   }
 
   void filterSearchResults(String query) {
@@ -53,7 +78,6 @@ class _AnimalListScreenState extends State {
 
   initState() {
     super.initState();
-    _getAnimals();
   }
 
   dispose() {
@@ -119,23 +143,7 @@ class _AnimalListScreenState extends State {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: animalsToDisplay.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(animalsToDisplay[index].name),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              AnimalScreen(animal: animalsToDisplay[index]),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+              child: _buildBody(context),
             ),
           ],
         ),

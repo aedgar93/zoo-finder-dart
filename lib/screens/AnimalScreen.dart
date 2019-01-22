@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:map_view/map_view.dart';
-import 'package:zoo_finder/models/Animal.dart';
-import 'package:zoo_finder/services/MapUtil.dart';
+
+import '../models/Animal.dart';
+import '../services/MapUtil.dart';
 
 class AnimalScreen extends StatefulWidget {
   final Animal animal;
@@ -56,9 +57,9 @@ class _AnimalScreenState extends State<AnimalScreen> {
         ),
         new Expanded(
           child: ListView.builder(
-            itemCount: animal.fullZoos.length,
+            itemCount: animal.zoos.length,
             itemBuilder: (context, index) {
-              return ListTile(title: Text(animal.fullZoos[index].name));
+              return ListTile(title: Text(animal.zoos[index].name));
             },
           ),
         ),

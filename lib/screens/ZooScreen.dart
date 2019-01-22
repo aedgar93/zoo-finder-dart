@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zoo_finder/models/Zoo.dart';
+
+import '../models/Zoo.dart';
 
 class ZooScreen extends StatefulWidget {
   final Zoo zoo;
