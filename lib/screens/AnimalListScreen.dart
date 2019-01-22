@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../models/Animal.dart';
+import 'AnimalScreen.dart';
 import 'ZooListScreen.dart';
 
 class AnimalListScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _AnimalListScreenState extends State {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('baby').snapshots(),
+      stream: Firestore.instance.collection('animals').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return new Container(
@@ -61,7 +62,12 @@ class _AnimalListScreenState extends State {
         ),
         child: ListTile(
           title: Text(animal.name),
-          onTap: () => print(animal),
+          onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AnimalScreen(animal: animal),
+                ),
+              ),
         ),
       ),
     );
