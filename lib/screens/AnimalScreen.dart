@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:map_view/map_view.dart';
 
 import '../models/Animal.dart';
-import '../services/MapUtil.dart';
+//import '../services/MapUtil.dart';
 
 class AnimalScreen extends StatefulWidget {
   final Animal animal;
@@ -14,9 +13,9 @@ class AnimalScreen extends StatefulWidget {
 }
 
 class _AnimalScreenState extends State<AnimalScreen> {
-  MapView mapView;
-  MapUtil mapUtil;
-  String staticMap;
+//  MapView mapView;
+//  MapUtil mapUtil;
+//  String staticMap;
   final Animal animal;
 
   _AnimalScreenState({@required this.animal});
@@ -25,29 +24,29 @@ class _AnimalScreenState extends State<AnimalScreen> {
   void initState() {
     super.initState();
 
-    mapUtil = new MapUtil();
-    mapUtil.init();
-    mapView = new MapView();
-    staticMap = mapUtil.getStaticMap(animal);
+//    mapUtil = new MapUtil();
+//    mapUtil.init();
+//    mapView = new MapView();
+//    staticMap = mapUtil.getStaticMap(animal);
   }
 
   @override
   Widget build(BuildContext context) {
     var screenWidget = new Column(
       children: <Widget>[
-        new Container(
-          height: 230.0,
-          child: new Stack(
-            children: <Widget>[
-              new GestureDetector(
-                onTap: () => mapUtil.showMap(mapView, animal),
-                child: new Center(
-                  child: new Image.network(staticMap),
-                ),
-              ),
-            ],
-          ),
-        ),
+//        new Container(
+//          height: 230.0,
+//          child: new Stack(
+//            children: <Widget>[
+//              new GestureDetector(
+//                onTap: () => mapUtil.showMap(mapView, animal),
+//                child: new Center(
+//                  child: new Image.network(staticMap),
+//                ),
+//              ),
+//            ],
+//          ),
+//        ),
         new Container(
           height: 50,
           child: new Text(

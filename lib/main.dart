@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:map_view/map_view.dart';
 
 import 'screens/AnimalListScreen.dart';
+//import 'package:map_view/map_view.dart';
 
 void main() {
-  MapView.setApiKey("AIzaSyBjByGoFxzMxHJMGJhR30L6NFSXkg99odo");
+//  MapView.setApiKey("AIzaSyBjByGoFxzMxHJMGJhR30L6NFSXkg99odo");
   runApp(new MyApp());
 }
 

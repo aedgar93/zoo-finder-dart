@@ -22,7 +22,17 @@ class _AnimalListScreenState extends State {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('baby').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
+        if (!snapshot.hasData)
+          return new Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: new SizedBox(
+              child: new CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation(Colors.teal),
+                  strokeWidth: 5.0),
+              height: 100.0,
+              width: 100.0,
+            ),
+          );
 
         return _buildList(context, snapshot.data.documents);
       },
@@ -30,9 +40,12 @@ class _AnimalListScreenState extends State {
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView(
-      padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+    return Expanded(
+      child: ListView(
+        padding: const EdgeInsets.only(top: 20.0),
+        children:
+            snapshot.map((data) => _buildListItem(context, data)).toList(),
+      ),
     );
   }
 
@@ -142,9 +155,7 @@ class _AnimalListScreenState extends State {
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
             ),
-            Expanded(
-              child: _buildBody(context),
-            ),
+            _buildBody(context),
           ],
         ),
       ),
